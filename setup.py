@@ -16,7 +16,7 @@ setup(name='aerios',
         'Programming Language :: Python :: 3.7',
       ],
       packages=['aerios'],
-      data_files=['aerios/data/airlines.xml', 'aerios/data/engines.xml', 'aerios/data/aircraft.xml', 'aerios/data/airports.xml'],
+      data_files=['aerios/data/airplanes.xml', 'aerios/data/engines.xml', 'aerios/data/fuels.xml', 'aerios/data/aircraft.xml', 'aerios/data/airports.xml'],
       install_requires=[
           'numpy',
           'scipy >= 0.15.0',

@@ -1,0 +1,15 @@
+notebooks/
+
+dist/
+
+build/
+
+aerios.egg-info/
+
+logo/
+
+__pycache__/
+
+history_A7-BCL.dat
+
+

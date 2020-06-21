@@ -1,77 +1,66 @@
 import numpy as np 
 import pandas as pd
-from aerios.readxml import Xml
-
+from aerios.airport import Airport
+from aerios.airplane import Airplane
+from math import radians
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
+import pkgutil
+import os
+my_path = os.path.abspath(os.path.dirname(__file__))
+fuels_file_location = os.path.join(my_path, "data/fuels.xml")
+NAUTICAL_MILES_INTERVALS = [125, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500,\
+            5000, 5500, 6000, 7000, 8000, 85000]
 class Flight(object):
     """
     Flight constructor.
 
-    :param list airports: A list of two airports, defined as strings by their IATA codes. 
-    :param string aircraft_type: The type of the aircraft, i.e., ``boeing-747-400``, or ``airbus a380``.
-    :param string aircraft_registration: The aircraft registration, i.e., ``A6-EDB``. Note that this is not the manufacturer's ID.
+    :param list airports: A list of two airports, defined as strings by their IATA codes. The first airport denotes the ``origin``, whilst the second airport denotes the ``destination``. An example of this input is ``['DOH', 'DCA']``.
+    :param string airplane: This can be the type of the aircraft, i.e., ``boeing 747-400``, or ``airbus a380`` or its registration i.e., ``A6-EDB``. Typically, aircraft types will have the manufacturer's name first followed by a space and then the type of aircraft. 
     
+    **Sample constructor initialisations**::
+
+        import aerios as ae
+
+        # Create a flight between Doha and Washington-Regean for aircraft registration A6-EDB
+        myflight = ae.Flight(airports=['DOH', 'DCA'], airplane='A6-EDB')
+
+        # Create a flight between London Heathrow and Paris Orly for a boeing 737
+        myflight = ae.Flight(airports=['LHR', 'ORY'], airplane='boeing 737')
+
     """
-    def __init__(self, airports, aircraft_type=None, aircraft_registration=None): 
-        if len(airports) > 2:
-            raise(ValueError, 'The list airports should only have two IATA codes.')
-        # Aircraft inputs!
-        if aircraft_type is None:
-            mode='aircraft-type'
-            xmldata_airline = Xml(mode, asset_id=aircraft_type)
-        elif aircraft_registration is None:
-            mode = 'aircraft-registration'
-            xmldata_airline = Xml(mode, asset_id=aircraft_id)
-        else:
-            raise(ValueError, 'You must either provide an aircraft registration or an aircraft ID, but not both.')
-        self.aircraft_type = xmldata_airline.aircraft_type
-        self.airline = xmldata_airline.airline
-        self.status = xmldata_airline.status 
-        self.engine_id = xmldata_airline.engine_id
-        self.number_of_engines = xmldata_airline.number_of_engines
-        self.first_flight = xmldata_airline.first_flight
-        # Airport inputs!
-        xmldata_airports = []
-        for airport in airports:
-            xmldata_airports.append( Xml(mode='airport', asset_id=airport) )
-    def get_fuel_estimate(self):
+    def __init__(self, airports, airplane): 
+        self.origin = Airport(airports[0])
+        self.destination = Airport(airports[1])
+        self.myplane = Airplane(airplane)
+    def get_fuel_estimate(self, output='kg'):
         """
         Returns the fuel estimate for the flight.
-        """
-        return 0
-    def get_trajectory(self, param1, param2):
-        """
-        Computes the great circle trajectory of the flight.
 
-        Args:
-            param1: The first parameter.
-            param2: The second parameter.
-
-        Returns:
-            bool: The return value. True for success, False otherwise.
+        :param Flight self: An instance of the Flight class.
+        :param string output: An input to specify whether the fuel estimate is given as ``kg`` or ``pounds``; default is the former.
         """
-        return 0
-    def get_pollution_levels(self):
-        """Create toctree_data, used to build sidebar navigation
-
-        :param pagename: The name of the page
-        :type pagename: str
-        :param templatename: The name of the templatename
-        :type templatename: str
-        :param context: The context
-        :type context: dict
-        :param doctree: A doctree
-        :type doctree: docutils.nodes.document
-
-        Add to `toctree_data` to `context` that will be available on templates.
-        Although data is "global", it is called once per page because current
-        page is "highlighted", and some part of TOC might be collapsed.
-
-        :return: None
+        # Using the standard great circle formula!
+        [miles, fuel] = self.get_fuel_data()
+        lon1, lat1, lon2, lat2 = map(radians, [self.origin.longitude, self.origin.lattitude, self.destination.longitude, self.destination.lattitude])
+        great_circle_distance =  3958.756 * ( np.arccos( np.sin(lat1) * np.sin(lat2) + np.cos(lat1) * np.cos(lat2) * np.cos(lon1 - lon2)) )
+    def get_fuel_data(self):
         """
-        return 0
-    def get_noise_levels(self):
+        Retrieves the fuel vs. range graph for a particular aircraft.
+
+        :param Flight self: An instance of the Flight class.
         """
-        Computes the noise levels.
-        """
-        return 0
-        
+        tree = ET.parse(fuels_file_location)
+        root = tree.getroot()
+        print(self.myplane.type)
+        port = root.findall(".//aircraft[@aircraft_type'"+self.myplane.type+"']")
+        print(port[0])
+        nautical_miles = []
+        fuel_consumption = []
+        for miles in NAUTICAL_MILES_INTERVALS:
+            try:
+                fuel_consumption.append(float( port[0].get('miles_'+str(miles))) )
+                nautical_miles.append(miles)
+            except IndexError as error:
+                print('Error')
+        return [nautical_miles, fuel_consumption]

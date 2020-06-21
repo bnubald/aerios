@@ -26,7 +26,7 @@ class Xml:
         self.fuels_file_location = fuels
         self.asset_id = asset_id
         self.mode = mode
-        if self.mode.lower() == 'airline':
+        if (self.mode.lower() == 'aircraft_type') or (self.mode.lower() == 'aircraft_registration'):
             data = self.get_airline_data()
         elif self.mode.lower() == 'engine':
             data = self.get_engine_data()
@@ -38,38 +38,36 @@ class Xml:
         """
         Retrieves the fuel vs. range graph for a particular aircraft.
         """
+        print
         tree = ET.parse(self.fuels_file_location)
         tree = ET.parse('../aerios/data/fuels.xml')
         root = tree.getroot()
         data = ET.Element('data')
-        port = root.findall(".//aircraft[@aircraft_id='"+str(self.asset_id)+"']")
+        self.get_airline_data()
+        port = root.findall(".//airline[@type'"+str(self.aircraft_type)+"']")
         nautical_miles = []
         fuel_consumption = []
         for miles in NAUTICAL_MILES_INTERVALS:
-            fuel_consumption.append(float( port[0].get('miles_'+str(miles))) )
-            nautical_miles.append(miles)
+            try:
+                fuel_consumption.append(float( port[0].get('miles_'+str(miles))) )
+                nautical_miles.append(miles)
+            except IndexError as error:
+                print('Error')
         self.miles_vs_fuel =  [nautical_miles, fuel_consumption]
-    def get_airport_data(self):
-        """
-        Retrieves the entire airport data set.
-        """
-        tree = ET.parse(self.airports_file_location)
-        root = tree.getroot()
-        data = ET.Element('data')
-        port = root.findall(".//airport[@iata='"+str(self.asset_id)+"']")
-        self.lattitude = float(port[0].get('lat_dec'))
-        self.longitude = float(port[0].get('lon_dec'))
-        self.altitude = float(port[0].get('alt'))
-        self.city = str(port[0].get('city'))
-        self.country = str(port[0].get('country'))
-        self.airport_name = str(port[0].get('name'))
+        return self.miles_vs_fuel
+
     def get_airline_data(self):
         """
         Retrieves airline data.
         """
         tree = ET.parse(self.airlines_file_location)
         root = tree.getroot()
-        airline = root.findall(".//airplane[@registration='"+str(self.asset_id)+"']")
+        if self.mode.lower() == 'aircraft_type':
+            airline = root.findall(".//airline[@type='"+str(self.asset_id)+"']")
+        else:
+            airline = root.findall(".//airline[@registration='"+str(self.asset_id)+"']")
+        print(self.asset_id)
+        print('Got here!')
         self.engine_id = airline[0].get('engine_id')
         self.aircraft_type = airline[0].get('type')
         self.status = airline[0].get('status')

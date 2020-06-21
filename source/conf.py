@@ -7,7 +7,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'probabilistic programming in aviation'
+project = 'aviation ai'
 copyright = '2020 by Aerios'
 author = 'Pranay Seshadri'
 
@@ -67,7 +67,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = None
 
 # If you want to have a consistent, platform independent look
-# sphinxemoji_style = 'twemoji'
+sphinxemoji_style = 'twemoji'
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -101,7 +101,7 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-
+html_title = 'Aerios | '
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #
@@ -110,11 +110,9 @@ html_static_path = ['_static']
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
+
 # The default `html_sidebars` of Press theme: ['util/searchbox.html', 'util/sidetoc.html']
 #
 # html_sidebars = {'**': ['util/sidetoc.html']}
 html_logo = '../logo/logo.png'
-
-
-#---sphinx-themes-----
 html_theme = 'press'

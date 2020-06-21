@@ -25,4 +25,6 @@ Below is a listing of the core modules.
    :maxdepth: 5
 
    flight
+   airport
+   airplane
 
