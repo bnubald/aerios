@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf8'?>
+<source="Eurocontrol International">
+<aircraft name="boeing 787">
+    <technical wing_span="52" length="56.7" height="16.9" recateu="upper-heavy" mtow="228000" > 
+    <engines option_1="2x280 kN General Electric GEnx" option_2="2x280 kN Rolls-Royce Trent 1000">
+    <performance phase="take-off" alt="0" ias="165" mach="" roc=""  distance="2820" tas="" range="">
+    <performance phase="initial-climb" alt="5000" ias="190" mach="" rocd="2700"  distance="" tas="" range="">
+    <performance phase="climb" alt="15000" ias="290" mach="" rocd="2000"  distance="" tas="" range="">
+    <performance phase="climb" alt="24000" ias="290" mach="" rocd="1500"  distance="" tas="" range="">
+    <performance phase="mach-climb" alt="" ias="" mach="0.79" rocd="1500"  distance="" tas="" range="">
+    <performance phase="cruise" alt="43000" ias="" mach="0.85" rocd="1500"  distance="" tas="470" range="8000">
+    <performance phase="initial-descent" alt="" ias="" mach="0.84" rocd="2600"  distance="" tas="" range="">
+    <performance phase="descent" alt="10000" ias="300" mach="" rocd="2800" distance="" tas="" range="">
+    <performance phase="approach" alt="" ias="240" mach="" rocd="1500" distance="" tas="" range="">
+    <performance phase="landing" alt="" ias="140" mach="" rocd="" distance="1520" tas="" range="">
+</aircraft>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf8'?>
+<data>
+<airplane registration="A6-EDB" type="airbus A380-861" msn="13" airline="emirates" remark="parked since 05/2020" status="active (parked)" engine_id="GP7270" engine_number="4" first_flight="02/04/2008" />
+<airplane registration="A6-ECN" type="boeing 777-36NER" msn="37705" airline="emirates" remark="" status="active" engine_id="GE90-115B" engine_number="2" first_flight="26/01/2009" />
+<airplane registration="A7-BAF" type="boeing 777-3DZER" msn="37661" airline="qatar-airways" remark="" status="active" engine_id="GE90-115B" engine_number="2" first_flight="16/09/2009" />
+<airplane registration="A7-BCA" type="boeing 787-8DZ" msn="38319" airline="qatar-airways" remark="parked since 03/2020" status="active (parked)" engine_id="GEnx-1B70" engine_number="2" first_flight="22/10/2012" />
+<airplane registration="A7-BCB" type="boeing 787-8DZ" msn="38320" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="25/06/2012"/>
+<airplane registration="A7-BCC" type="boeing 787-8DZ" msn="38321" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="03/12/2012"/>
+<airplane registration="A7-BCD" type="boeing 787-8" msn="38322" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="20/05/2013"/>
+<airplane registration="A7-BCE" type="boeing 787-8" msn="38323" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="01/07/2013"/>
+<airplane registration="A7-BCF" type="boeing 787-8" msn="38324" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="18/07/2013"/>
+<airplane registration="A7-BCG" type="boeing 787-8" msn="38325" airline="qatar-airways" remark="parked since 03/2020" status="active (parked)" engine_id="GEnx-1B70" engine_number="2" first_flight="08/07/2013"/>
+<airplane registration="A7-BCH" type="boeing 787-8" msn="38326" airline="qatar-airways" remark="parked since 03/2020" status="active (parked)" engine_id="GEnx-1B70" engine_number="2" first_flight="17/11/2013"/>
+<airplane registration="A7-BCI" type="boeing 787-8" msn="38327" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="20/12/2013"/>
+<airplane registration="A7-BCJ" type="boeing 787-8" msn="38328" airline="qatar-airways" remark="parked since 03/2020" status="active (parked)" engine_id="GEnx-1B70" engine_number="2" first_flight="02/02/2014"/>
+<airplane registration="A7-BCK" type="boeing 787-8DZ" msn="38329" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="24/11/2014"/>
+<airplane registration="A7-BCL" type="boeing 787-8DZ" msn="38330" airline="qatar-airways" remark="" status="active" engine_id="GEnx-1B70" engine_number="2" first_flight="27/09/2012"/>
+<airplane registration="A7-BCM" type="boeing 787-8" msn="38331" airline="qatar-airways" remark="parked since 05/2020" status="active (parked)" engine_id="GEnx-1B70" engine_number="2" first_flight="24/02/2014"/>
+<airplane registration="A7-BCO" type="boeing 787-8" msn="38333" airline="qatar-airways" remark="parked since 03/2020" status="active (parked)" engine_id="GEnx-1B70" engine_number="2" first_flight="20/06/2014"/>
+</data>
