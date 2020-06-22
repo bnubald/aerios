@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import pkgutil
 import os
+from scipy.interpolate import interp1d
 my_path = os.path.abspath(os.path.dirname(__file__))
 fuels_file_location = os.path.join(my_path, "data/fuels.xml")
 NAUTICAL_MILES_INTERVALS = [125, 250, 500, 750, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500,\
@@ -33,17 +34,20 @@ class Flight(object):
         self.origin = Airport(airports[0])
         self.destination = Airport(airports[1])
         self.myplane = Airplane(airplane)
-    def get_fuel_estimate(self, output='kg'):
+    def get_fuel_estimate(self):
         """
         Returns the fuel estimate for the flight.
 
         :param Flight self: An instance of the Flight class.
-        :param string output: An input to specify whether the fuel estimate is given as ``kg`` or ``pounds``; default is the former.
         """
         # Using the standard great circle formula!
         [miles, fuel] = self.get_fuel_data()
         lon1, lat1, lon2, lat2 = map(radians, [self.origin.longitude, self.origin.lattitude, self.destination.longitude, self.destination.lattitude])
         great_circle_distance =  3958.756 * ( np.arccos( np.sin(lat1) * np.sin(lat2) + np.cos(lat1) * np.cos(lat2) * np.cos(lon1 - lon2)) )
+        f = interp1d(miles, fuel, kind='cubic')
+        fuel_estimate = f(great_circle_distance)
+        self._great_circle_distance = great_circle_distance
+        return fuel_estimate
     def get_fuel_data(self):
         """
         Retrieves the fuel vs. range graph for a particular aircraft.
@@ -52,15 +56,14 @@ class Flight(object):
         """
         tree = ET.parse(fuels_file_location)
         root = tree.getroot()
-        print(self.myplane.type)
-        port = root.findall(".//aircraft[@aircraft_type'"+self.myplane.type+"']")
-        print(port[0])
+        port = root.findall(".//aircraft[@aircraft_type='"+str(self.myplane.type)+"']")
         nautical_miles = []
         fuel_consumption = []
         for miles in NAUTICAL_MILES_INTERVALS:
-            try:
-                fuel_consumption.append(float( port[0].get('miles_'+str(miles))) )
+            value = port[0].get('miles_'+str(miles))
+            if value is not None:
+                fuel_consumption.append(float(value))
                 nautical_miles.append(miles)
-            except IndexError as error:
-                print('Error')
-        return [nautical_miles, fuel_consumption]
+        self._nautical_miles = nautical_miles
+        self._fuel_consumption = fuel_consumption
+        return nautical_miles, fuel_consumption
