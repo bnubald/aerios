@@ -23,9 +23,9 @@ class Airplane(object):
         myairplane = Airplane('A6-EDB')
 
     """
-    def __init__(self, airplane, airline):
+    def __init__(self, airplane, airline=None):
         self.airplane = airplane.lower()
-        self.airline = airline.lower()
+        self.airline = airline.lower() if airline is not None else None
         self._get_airline_data()
     def _get_airline_data(self):
         """
@@ -33,18 +33,46 @@ class Airplane(object):
         """
         tree = ET.parse(airplanes_file_location)
         root = tree.getroot()
-        airline = root.xpath(".//airplane[@type='" + str(self.airplane) + "' and @airline='" + str(self.airline) + "']")
+
+        queryType = "@type='" + str(self.airplane) + "'"
+        queryAirline = "@airline='" + str(self.airline) + "'"
+        #If airline is not given:
+        if self.airline is None:
+            airline = root.xpath(".//airplane[" + queryType + "]")
+        #Else: if airline is given, check for both matching type & airline
+        else:
+            airline = root.xpath(".//airplane[" + queryType + " and " + queryAirline + "]")
+
         if not airline:
             airline_again = root.xpath(".//airplane[@registration='"+str(self.airplane)+"']")
             if not airline_again:
                 raise(ValueError, 'Incorrect input for airplane.')
             else:
                 airline = airline_again
-        self.engine_id = airline[0].get('engine_id')
         self.registration = airline[0].get('registration')
         self.family_type = airline[0].get('family_type')
         self.type = airline[0].get('type')
+        self.airline = airline[0].get('airline')
         self.status = airline[0].get('status')
+        self.engine_id = airline[0].get('engine_id')
         self.number_of_engines = airline[0].get('engine_number')
         self.first_flight = airline[0].get('first_flight')
-        self.airline = airline[0].get('airline')
+        self.delivery_date = airline[0].get('delivery_date')
+        self.plane_age = airline[0].get('plane_age')
+    def __print_info(self, text, value):
+        if value is not "":
+            print( '{0: <23}'.format( text + ":"), value )
+    def info(self):
+        """
+            Print out all stored info regarding aircraft
+        """
+        self.__print_info( "Registration", self.registration )
+        self.__print_info( "Aircraft Family Type", self.family_type )
+        self.__print_info( "Aircraft Type", self.type.title() )
+        self.__print_info( "Airline", self.airline.title() )
+        self.__print_info( "Status", self.status )
+        self.__print_info( "Engine ID", self.engine_id )
+        self.__print_info( "Number of Engines", self.number_of_engines )
+        self.__print_info( "First Flight", self.first_flight )
+        self.__print_info( "Delivery Date", self.delivery_date )
+        self.__print_info( "Aircraft Age (years)", self.plane_age )

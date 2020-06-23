@@ -30,7 +30,7 @@ class Flight(object):
         myflight = ae.Flight(airports=['LHR', 'ORY'], airplane='boeing 737')
 
     """
-    def __init__(self, airports, airplane, airline):
+    def __init__(self, airports, airplane, airline=None):
         self.origin = Airport(airports[0])
         self.destination = Airport(airports[1])
         self.myplane = Airplane(airplane, airline)
