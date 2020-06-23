@@ -1,5 +1,4 @@
 import lxml.etree as ET
-# import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import os
 from copy import deepcopy
