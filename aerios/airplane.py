@@ -1,4 +1,5 @@
-import xml.etree.ElementTree as ET
+import lxml.etree as ET
+# import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import os
 from copy import deepcopy
@@ -22,8 +23,9 @@ class Airplane(object):
         myairplane = Airplane('A6-EDB')
 
     """
-    def __init__(self, airplane):
-        self.airplane = airplane
+    def __init__(self, airplane, airline):
+        self.airplane = airplane.lower()
+        self.airline = airline.lower()
         self._get_airline_data()
     def _get_airline_data(self):
         """
@@ -31,15 +33,16 @@ class Airplane(object):
         """
         tree = ET.parse(airplanes_file_location)
         root = tree.getroot()
-        airline = root.findall(".//airplane[@type='"+str(self.airplane)+"']")
+        airline = root.xpath(".//airplane[@type='" + str(self.airplane) + "' and @airline='" + str(self.airline) + "']")
         if not airline:
-            airline_again = root.findall(".//airplane[@registration='"+str(self.airplane)+"']")
+            airline_again = root.xpath(".//airplane[@registration='"+str(self.airplane)+"']")
             if not airline_again:
                 raise(ValueError, 'Incorrect input for airplane.')
             else:
                 airline = airline_again
         self.engine_id = airline[0].get('engine_id')
         self.registration = airline[0].get('registration')
+        self.family_type = airline[0].get('family_type')
         self.type = airline[0].get('type')
         self.status = airline[0].get('status')
         self.number_of_engines = airline[0].get('engine_number')

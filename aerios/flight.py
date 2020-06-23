@@ -30,10 +30,10 @@ class Flight(object):
         myflight = ae.Flight(airports=['LHR', 'ORY'], airplane='boeing 737')
 
     """
-    def __init__(self, airports, airplane): 
+    def __init__(self, airports, airplane, airline):
         self.origin = Airport(airports[0])
         self.destination = Airport(airports[1])
-        self.myplane = Airplane(airplane)
+        self.myplane = Airplane(airplane, airline)
     def get_fuel_estimate(self):
         """
         Returns the fuel estimate for the flight.
